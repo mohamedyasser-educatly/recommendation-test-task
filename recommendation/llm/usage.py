@@ -6,9 +6,8 @@ from typing import Any
 
 def get_llm_model_info() -> dict[str, str]:
     deployment = os.getenv("AZURE_OPENAI_DEPLOYMENT_NAME", "unknown")
-    model = os.getenv("AZURE_OPENAI_MODEL_NAME", deployment)
     return {
-        "model": model,
+        "model": deployment,
         "deployment": deployment,
         "provider": "azure_openai",
     }
@@ -48,15 +47,6 @@ def extract_token_usage(raw_message: Any | None) -> dict[str, int]:
     }
 
 
-def estimate_cost_usd(prompt_tokens: int, completion_tokens: int) -> float:
-    input_rate = float(os.getenv("LLM_INPUT_COST_PER_1M_TOKENS", "0.15"))
-    output_rate = float(os.getenv("LLM_OUTPUT_COST_PER_1M_TOKENS", "0.60"))
-    return round(
-        (prompt_tokens / 1_000_000) * input_rate + (completion_tokens / 1_000_000) * output_rate,
-        6,
-    )
-
-
 def build_usage_record(raw_message: Any | None, *, step: str) -> dict[str, Any]:
     tokens = extract_token_usage(raw_message)
     model_info = get_llm_model_info()
@@ -64,10 +54,6 @@ def build_usage_record(raw_message: Any | None, *, step: str) -> dict[str, Any]:
         "step": step,
         **model_info,
         **tokens,
-        "estimated_cost_usd": estimate_cost_usd(
-            tokens["prompt_tokens"],
-            tokens["completion_tokens"],
-        ),
     }
 
 
@@ -88,14 +74,12 @@ def summarize_llm_usage(records: list[dict[str, Any]] | None) -> dict[str, Any]:
             "total_prompt_tokens": 0,
             "total_completion_tokens": 0,
             "total_tokens": 0,
-            "estimated_cost_usd": 0.0,
         }
 
     first = items[0]
     total_prompt = sum(int(item.get("prompt_tokens") or 0) for item in items)
     total_completion = sum(int(item.get("completion_tokens") or 0) for item in items)
     total_tokens = sum(int(item.get("total_tokens") or 0) for item in items)
-    total_cost = round(sum(float(item.get("estimated_cost_usd") or 0) for item in items), 6)
 
     return {
         "model": first.get("model", get_llm_model_info()["model"]),
@@ -105,5 +89,4 @@ def summarize_llm_usage(records: list[dict[str, Any]] | None) -> dict[str, Any]:
         "total_prompt_tokens": total_prompt,
         "total_completion_tokens": total_completion,
         "total_tokens": total_tokens,
-        "estimated_cost_usd": total_cost,
     }
