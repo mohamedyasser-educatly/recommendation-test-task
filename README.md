@@ -60,6 +60,63 @@ flowchart TD
     recover_validation -->|career positions failure| llm_career_positions
 ```
 
+## Sequence diagram
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Main as main.py
+    participant Graph as LangGraph
+    participant Companies as companies/service.py
+    participant Dev as development/service.py
+    participant Career as career_positions/service.py
+    participant LLM as llm/client.py
+    participant Azure as Azure OpenAI
+
+    User->>Main: run(user_input, catalog_path)
+    Main->>Graph: graph.invoke(state)
+
+    Graph->>Graph: validate_user_input (Pydantic)
+    Graph->>Graph: load_catalog (Pydantic)
+
+    Graph->>Companies: rank_companies_from_catalog()
+    Companies->>LLM: invoke_structured(CompanyRankingOutput)
+    LLM->>Azure: chat completion request
+    Azure-->>LLM: scored companies + token usage
+    LLM-->>Companies: StructuredInvokeResult
+    Companies-->>Graph: ranked_companies (score > 60%)
+
+    Graph->>Graph: prepare_development_context
+
+    Graph->>Dev: generate_development_report()
+    Dev->>LLM: invoke_structured(DevelopmentBranchOutput)
+    LLM->>Azure: chat completion request
+    Azure-->>LLM: development areas + narrative
+    LLM-->>Dev: StructuredInvokeResult
+    Dev-->>Graph: development_areas, narrative
+
+    Graph->>Career: generate_career_positions()
+    Career->>LLM: invoke_structured(CareerPositionsBranchOutput)
+    LLM->>Azure: chat completion request
+    Azure-->>LLM: career positions
+    LLM-->>Career: StructuredInvokeResult
+    Career-->>Graph: career_positions
+
+    Graph->>Graph: validate_output (deterministic)
+
+    alt validation passed
+        Graph->>Graph: assemble_success
+    else validation failed & retries left
+        Graph->>Graph: recover_validation
+        Graph->>Graph: retry failed branch (loops back above)
+    else retries exhausted
+        Graph->>Graph: handle_validation_failure
+    end
+
+    Graph-->>Main: final_output
+    Main-->>User: JSON result (stdout + output file)
+```
+
 ## Nodes
 
 | Node | Type | Purpose |
