@@ -1,4 +1,7 @@
-from recommendation.constants import MAX_COMPANIES
+from recommendation.constants import (
+    MAX_COMPANIES,
+    MAX_COMPANY_CANDIDATES,
+    MIN_COMPANY_FIT_SCORE,
+)
 
-MIN_COMPANY_FIT_SCORE = 60
-MAX_COMPANY_CANDIDATES = 10
+__all__ = ["MAX_COMPANIES", "MAX_COMPANY_CANDIDATES", "MIN_COMPANY_FIT_SCORE"]

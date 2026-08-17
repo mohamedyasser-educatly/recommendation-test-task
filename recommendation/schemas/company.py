@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field
 
-from recommendation.companies.constants import MAX_COMPANY_CANDIDATES, MIN_COMPANY_FIT_SCORE
+from recommendation.constants import MAX_COMPANY_CANDIDATES, MIN_COMPANY_FIT_SCORE
 
 
 class RankedCompanyPick(BaseModel):
