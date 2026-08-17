@@ -20,6 +20,7 @@ class RankedCompany(TypedDict):
     id: str
     name: str
     sector: str
+    score: float
     why_recommended: str
 
 

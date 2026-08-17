@@ -62,7 +62,7 @@ flowchart TD
 |------|------|---------|
 | `validate_user_input` | Pydantic | Validate user trait profile |
 | `load_catalog` | Pydantic | Load employer reference catalog |
-| `rank_companies` | LLM | Rank companies from catalog |
+| `rank_companies` | LLM | Evaluate and rank companies; keep only scores above 60% |
 | `prepare_development_context` | Deterministic | Set allowed company names for narrative |
 | `llm_development_report` | LLM | Development areas + narrative |
 | `llm_career_positions` | LLM | Career positions with company role examples |
@@ -79,7 +79,15 @@ Success and validation-failure responses include an `llm_usage` summary with the
 ```json
 {
   "status": "success",
-  "recommended_companies": [],
+  "recommended_companies": [
+    {
+      "rank": 1,
+      "name": "Example Corp",
+      "sector": "Technology",
+      "score": 87.5,
+      "why_recommended": "Strong alignment with your engineering background."
+    }
+  ],
   "development_report": [],
   "career_positions": [],
   "narrative": "",

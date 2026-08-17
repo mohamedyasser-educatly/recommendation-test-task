@@ -13,6 +13,7 @@ from recommendation.development import MAX_DEVELOPMENT_AREAS, generate_developme
 from recommendation.llm.errors import DevelopmentLLMError
 from recommendation.llm.usage import append_usage_record, summarize_llm_usage
 from recommendation.models import format_validation_errors, parse_reference_catalog, parse_user_input
+from recommendation.companies.constants import MIN_COMPANY_FIT_SCORE
 from recommendation.constants import RecoveryTarget
 from recommendation.state import GraphState
 
@@ -201,9 +202,15 @@ def validate_output(state: GraphState) -> GraphState:
                     errors.append(f"Company role example missing required field '{field}'.")
 
     for company in ranked:
-        for field in ("id", "name", "sector", "why_recommended", "rank"):
+        for field in ("id", "name", "sector", "score", "why_recommended", "rank"):
             if field not in company:
                 errors.append(f"Ranked company missing required field '{field}'.")
+        score = company.get("score")
+        if score is not None and score <= MIN_COMPANY_FIT_SCORE:
+            errors.append(
+                f"Ranked company '{company.get('name')}' has score {score}, "
+                f"which is not above {MIN_COMPANY_FIT_SCORE}%."
+            )
 
     for area in areas:
         for field in ("area_of_developing", "why", "skills_to_acquire", "topics_to_learn"):
@@ -232,6 +239,7 @@ def assemble_success(state: GraphState) -> GraphState:
                     "rank": company["rank"],
                     "name": company["name"],
                     "sector": company["sector"],
+                    "score": company["score"],
                     "why_recommended": company["why_recommended"],
                 }
                 for company in state.get("ranked_companies") or []
@@ -321,6 +329,7 @@ def handle_validation_failure(state: GraphState) -> GraphState:
                     "rank": company.get("rank"),
                     "name": company.get("name"),
                     "sector": company.get("sector"),
+                    "score": company.get("score"),
                     "why_recommended": company.get("why_recommended"),
                 }
                 for company in (state.get("ranked_companies") or [])

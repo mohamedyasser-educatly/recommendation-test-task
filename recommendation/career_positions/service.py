@@ -34,6 +34,7 @@ def generate_career_positions(
                 "rank": company.get("rank"),
                 "name": company["name"],
                 "sector": company["sector"],
+                "score": company.get("score"),
                 "why_recommended": company.get("why_recommended"),
             }
             for company in ranked_companies

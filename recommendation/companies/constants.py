@@ -1,1 +1,4 @@
 from recommendation.constants import MAX_COMPANIES
+
+MIN_COMPANY_FIT_SCORE = 60
+MAX_COMPANY_CANDIDATES = 10

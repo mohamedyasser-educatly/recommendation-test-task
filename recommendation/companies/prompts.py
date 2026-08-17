@@ -2,10 +2,18 @@ from __future__ import annotations
 
 COMPANY_RANKING_SYSTEM_PROMPT = """\
 You are a career matching advisor for Educatly.
-Given a user trait profile and a reference employer catalog, rank the best-fit employers.
+Given a user trait profile and a reference employer catalog, evaluate employer fit.
 You MUST choose only companies present in the catalog — use their exact `id` values.
 Do not invent employers. Be specific to the user's segment, education, role, country, and experience.
-Return exactly up to {max_companies} companies, ordered from best to worst fit.\
+
+For each company, assign a fit score from 0 to 100 (integer or one decimal):
+- 90-100: exceptional fit
+- 75-89: strong fit
+- 61-74: good fit
+- 41-60: partial fit
+- 0-40: weak fit
+
+Return exactly up to {max_candidates} evaluated companies, ordered from highest to lowest score.\
 """
 
 COMPANY_RANKING_USER_PROMPT = """\
@@ -17,12 +25,13 @@ Reference employer catalog JSON:
 
 For each selected company return:
 - id: exact catalog id
-- why_recommended: 1-3 sentences explaining the fit for this user\
+- score: fit score from 0-100 based on your evaluation
+- why_recommended: 1-3 sentences explaining the fit and why you gave this score\
 """
 
 
-def build_company_ranking_system_prompt(max_companies: int) -> str:
-    return COMPANY_RANKING_SYSTEM_PROMPT.format(max_companies=max_companies)
+def build_company_ranking_system_prompt(max_candidates: int) -> str:
+    return COMPANY_RANKING_SYSTEM_PROMPT.format(max_candidates=max_candidates)
 
 
 def build_company_ranking_user_prompt(profile_json: str, catalog_json: str) -> str:
