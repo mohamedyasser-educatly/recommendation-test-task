@@ -18,7 +18,7 @@ def generate_development_report(
     allowed_company_names: list[str],
     *,
     max_areas: int = MAX_DEVELOPMENT_AREAS,
-) -> DevelopmentBranchOutput:
+) -> tuple[DevelopmentBranchOutput, dict[str, Any]]:
     allowed_names_text = (
         ", ".join(allowed_company_names)
         if allowed_company_names
@@ -26,7 +26,7 @@ def generate_development_report(
     )
     profile_json = json.dumps(user_input, indent=2, ensure_ascii=False)
 
-    result = invoke_structured(
+    invoke_result = invoke_structured(
         DevelopmentBranchOutput,
         system_prompt=build_development_report_system_prompt(max_areas),
         user_prompt=build_development_report_user_prompt(
@@ -34,13 +34,14 @@ def generate_development_report(
             max_areas=max_areas,
             allowed_names_text=allowed_names_text,
         ),
+        step="llm_development_report",
         error_prefix="LLM development report generation failed",
     )
 
     trimmed = DevelopmentBranchOutput(
-        development_areas=result.development_areas[:max_areas],
-        narrative=result.narrative.strip(),
+        development_areas=invoke_result.parsed.development_areas[:max_areas],
+        narrative=invoke_result.parsed.narrative.strip(),
     )
     if not trimmed.narrative:
         raise RecommendationLLMError("LLM returned an empty narrative.")
-    return trimmed
+    return trimmed, invoke_result.usage

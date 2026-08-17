@@ -11,6 +11,7 @@ from recommendation.career_positions import generate_career_positions
 from recommendation.companies import MAX_COMPANIES, rank_companies_from_catalog
 from recommendation.development import MAX_DEVELOPMENT_AREAS, generate_development_report
 from recommendation.llm.errors import DevelopmentLLMError
+from recommendation.llm.usage import append_usage_record, summarize_llm_usage
 from recommendation.models import format_validation_errors, parse_reference_catalog, parse_user_input
 from recommendation.constants import RecoveryTarget
 from recommendation.state import GraphState
@@ -29,6 +30,7 @@ def validate_user_input(state: GraphState) -> GraphState:
         "branch_status": "pending",
         "validation_errors": [],
         "validation_retry_count": 0,
+        "llm_usage_records": [],
     }
 
 
@@ -64,7 +66,7 @@ def load_catalog(state: GraphState) -> GraphState:
 def rank_companies(state: GraphState) -> GraphState:
     """LLM graph node — rank employers constrained to the reference catalog."""
     try:
-        ranked = rank_companies_from_catalog(
+        ranked, usage = rank_companies_from_catalog(
             state["user_input"],
             state["catalog"]["companies"],
             max_companies=MAX_COMPANIES,
@@ -78,6 +80,7 @@ def rank_companies(state: GraphState) -> GraphState:
     return {
         "ranked_companies": ranked,
         "company_branch_error": None,
+        "llm_usage_records": append_usage_record(state.get("llm_usage_records"), usage),
     }
 
 
@@ -90,7 +93,7 @@ def prepare_development_context(state: GraphState) -> GraphState:
 def llm_development_report(state: GraphState) -> GraphState:
     """LLM graph node — generates development report and narrative from user profile."""
     try:
-        llm_result = generate_development_report(
+        llm_result, usage = generate_development_report(
             state["user_input"],
             state.get("allowed_company_names") or [],
             max_areas=MAX_DEVELOPMENT_AREAS,
@@ -110,13 +113,14 @@ def llm_development_report(state: GraphState) -> GraphState:
         "development_areas": development_areas,
         "narrative": llm_result.narrative,
         "development_branch_error": None,
+        "llm_usage_records": append_usage_record(state.get("llm_usage_records"), usage),
     }
 
 
 def llm_career_positions(state: GraphState) -> GraphState:
     """LLM graph node — career positions grounded in profile, development report, and ranked employers."""
     try:
-        positions = generate_career_positions(
+        positions, usage = generate_career_positions(
             state["user_input"],
             state.get("development_areas") or [],
             state.get("ranked_companies") or [],
@@ -130,6 +134,7 @@ def llm_career_positions(state: GraphState) -> GraphState:
     return {
         "career_positions": positions,
         "career_positions_branch_error": None,
+        "llm_usage_records": append_usage_record(state.get("llm_usage_records"), usage),
     }
 
 
@@ -242,6 +247,7 @@ def assemble_success(state: GraphState) -> GraphState:
             ],
             "narrative": state.get("narrative", ""),
             "career_positions": _format_career_positions(state.get("career_positions") or []),
+            "llm_usage": summarize_llm_usage(state.get("llm_usage_records")),
         },
     }
 
@@ -330,6 +336,7 @@ def handle_validation_failure(state: GraphState) -> GraphState:
             ],
             "narrative": state.get("narrative", ""),
             "career_positions": _format_career_positions(state.get("career_positions") or []),
+            "llm_usage": summarize_llm_usage(state.get("llm_usage_records")),
         },
     }
 

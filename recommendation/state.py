@@ -69,3 +69,4 @@ class GraphState(TypedDict, total=False):
     career_positions_branch_error: str | None
     validation_retry_count: int
     recovery_target: RecoveryTarget
+    llm_usage_records: list[dict[str, Any]]

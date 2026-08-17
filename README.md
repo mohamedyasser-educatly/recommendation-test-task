@@ -18,6 +18,9 @@ export AZURE_OPENAI_API_KEY="your-key"
 export AZURE_OPENAI_DEPLOYMENT_NAME="your-gpt-deployment"
 # optional
 export AZURE_OPENAI_API_VERSION="2024-08-01-preview"
+export AZURE_OPENAI_MODEL_NAME="gpt-4o"          # shown in output; defaults to deployment name
+export LLM_INPUT_COST_PER_1M_TOKENS="0.15"      # USD per 1M input tokens for cost estimate
+export LLM_OUTPUT_COST_PER_1M_TOKENS="0.60"      # USD per 1M output tokens for cost estimate
 ```
 
 ## Run
@@ -71,13 +74,36 @@ flowchart TD
 
 ## Output
 
+Success and validation-failure responses include an `llm_usage` summary with the model, deployment, token counts, estimated cost (USD), and a per-call breakdown. Usage accumulates across validation retries.
+
 ```json
 {
   "status": "success",
   "recommended_companies": [],
   "development_report": [],
   "career_positions": [],
-  "narrative": ""
+  "narrative": "",
+  "llm_usage": {
+    "model": "gpt-4o",
+    "deployment": "your-gpt-deployment",
+    "provider": "azure_openai",
+    "total_prompt_tokens": 4200,
+    "total_completion_tokens": 1800,
+    "total_tokens": 6000,
+    "estimated_cost_usd": 0.00171,
+    "calls": [
+      {
+        "step": "rank_companies",
+        "model": "gpt-4o",
+        "deployment": "your-gpt-deployment",
+        "provider": "azure_openai",
+        "prompt_tokens": 1400,
+        "completion_tokens": 600,
+        "total_tokens": 2000,
+        "estimated_cost_usd": 0.00057
+      }
+    ]
+  }
 }
 ```
 
@@ -90,7 +116,9 @@ recommendation/
 ├── companies/            # Company ranking (LLM)
 ├── development/          # Development report (LLM)
 ├── career_positions/     # Career paths (LLM)
-├── llm/                  # Centralized Azure LLM client
+├── llm/                  # Centralized Azure LLM client + usage tracking
+│   ├── client.py
+│   └── usage.py
 ├── schemas/              # LLM structured output models
 └── models.py             # Input & catalog Pydantic models
 data/

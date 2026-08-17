@@ -19,7 +19,7 @@ def generate_career_positions(
     ranked_companies: list[dict[str, Any]],
     *,
     max_positions: int = MAX_CAREER_POSITIONS,
-) -> list[dict[str, Any]]:
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     allowed_names = [company["name"] for company in ranked_companies]
     if not allowed_names:
         raise RecommendationLLMError(
@@ -43,7 +43,7 @@ def generate_career_positions(
     )
     allowed_company_names = ", ".join(allowed_names)
 
-    result = invoke_structured(
+    invoke_result = invoke_structured(
         CareerPositionsBranchOutput,
         system_prompt=build_career_positions_system_prompt(max_positions),
         user_prompt=build_career_positions_user_prompt(
@@ -52,6 +52,7 @@ def generate_career_positions(
             ranked_companies_json,
             allowed_company_names,
         ),
+        step="llm_career_positions",
         error_prefix="LLM career positions generation failed",
     )
 
@@ -60,8 +61,8 @@ def generate_career_positions(
             "rank": index,
             **position.model_dump(),
         }
-        for index, position in enumerate(result.career_positions[:max_positions], start=1)
+        for index, position in enumerate(invoke_result.parsed.career_positions[:max_positions], start=1)
     ]
     if not positions:
         raise RecommendationLLMError("LLM career positions returned an empty list.")
-    return positions
+    return positions, invoke_result.usage

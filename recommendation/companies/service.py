@@ -18,7 +18,7 @@ def rank_companies_from_catalog(
     catalog_companies: list[dict[str, Any]],
     *,
     max_companies: int = MAX_COMPANIES,
-) -> list[dict[str, Any]]:
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
     profile_json = json.dumps(user_input, indent=2, ensure_ascii=False)
     catalog_json = json.dumps(
         [
@@ -36,14 +36,16 @@ def rank_companies_from_catalog(
         ensure_ascii=False,
     )
 
-    result = invoke_structured(
+    invoke_result = invoke_structured(
         CompanyRankingOutput,
         system_prompt=build_company_ranking_system_prompt(max_companies),
         user_prompt=build_company_ranking_user_prompt(profile_json, catalog_json),
+        step="rank_companies",
         error_prefix="LLM company ranking failed",
     )
 
-    return _map_ranking_to_catalog(result, catalog_companies, max_companies)
+    ranked = _map_ranking_to_catalog(invoke_result.parsed, catalog_companies, max_companies)
+    return ranked, invoke_result.usage
 
 
 def _map_ranking_to_catalog(
