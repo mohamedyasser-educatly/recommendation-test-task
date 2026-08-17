@@ -1,0 +1,260 @@
+{
+  "companies": [
+    {
+      "id": "siemens",
+      "name": "Siemens",
+      "sector": "Industrial Engineering & Automation",
+      "regions": ["Europe", "MENA", "Global"],
+      "tags": ["engineering", "manufacturing", "automation", "operations"],
+      "fit_segments": ["professional", "university"]
+    },
+    {
+      "id": "schneider-electric",
+      "name": "Schneider Electric",
+      "sector": "Energy Management & Industrial Automation",
+      "regions": ["Europe", "MENA", "Global"],
+      "tags": ["engineering", "industrial", "energy", "operations"],
+      "fit_segments": ["professional", "university"]
+    },
+    {
+      "id": "polimi-spinoff",
+      "name": "PoliHub",
+      "sector": "Startup Incubator & Innovation",
+      "regions": ["Europe", "Italy"],
+      "tags": ["founder", "startup", "engineering", "innovation"],
+      "fit_segments": ["professional"]
+    },
+    {
+      "id": "orascom-construction",
+      "name": "Orascom Construction",
+      "sector": "Construction & Industrial Projects",
+      "regions": ["MENA", "Egypt"],
+      "tags": ["engineering", "operations", "project-management"],
+      "fit_segments": ["professional", "university"]
+    },
+    {
+      "id": "amazon-ops",
+      "name": "Amazon Operations",
+      "sector": "Supply Chain & Logistics",
+      "regions": ["Europe", "MENA", "Global"],
+      "tags": ["operations", "supply-chain", "industrial-engineering"],
+      "fit_segments": ["professional", "university"]
+    },
+    {
+      "id": "flat6labs",
+      "name": "Flat6Labs",
+      "sector": "Venture Capital & Startup Accelerator",
+      "regions": ["MENA", "Egypt"],
+      "tags": ["founder", "startup", "entrepreneurship"],
+      "fit_segments": ["professional"]
+    },
+    {
+      "id": "bmw-group",
+      "name": "BMW Group",
+      "sector": "Automotive Manufacturing",
+      "regions": ["Europe", "Global"],
+      "tags": ["engineering", "manufacturing", "industrial-engineering"],
+      "fit_segments": ["university", "professional"]
+    },
+    {
+      "id": "procter-gamble",
+      "name": "Procter & Gamble",
+      "sector": "Consumer Goods & Operations",
+      "regions": ["Global", "MENA"],
+      "tags": ["operations", "supply-chain", "management"],
+      "fit_segments": ["professional", "university"]
+    },
+    {
+      "id": "abb",
+      "name": "ABB",
+      "sector": "Robotics & Power Systems",
+      "regions": ["Europe", "Global", "MENA"],
+      "tags": ["engineering", "automation", "manufacturing", "industrial-engineering"],
+      "fit_segments": ["university", "professional"]
+    },
+    {
+      "id": "ge-vernova",
+      "name": "GE Vernova",
+      "sector": "Energy & Power Infrastructure",
+      "regions": ["Global", "MENA", "Europe"],
+      "tags": ["engineering", "energy", "industrial", "operations"],
+      "fit_segments": ["professional", "university"]
+    },
+    {
+      "id": "deloitte",
+      "name": "Deloitte",
+      "sector": "Management Consulting",
+      "regions": ["Global", "MENA", "Europe"],
+      "tags": ["management", "operations", "professional"],
+      "fit_segments": ["professional", "university"]
+    },
+    {
+      "id": "mckinsey",
+      "name": "McKinsey & Company",
+      "sector": "Strategy Consulting",
+      "regions": ["Global", "MENA", "Europe"],
+      "tags": ["management", "operations", "professional"],
+      "fit_segments": ["professional", "university"]
+    },
+    {
+      "id": "swvl",
+      "name": "Swvl",
+      "sector": "Mobility & Transportation Tech",
+      "regions": ["MENA", "Egypt", "Global"],
+      "tags": ["startup", "operations", "engineering", "founder"],
+      "fit_segments": ["professional"]
+    },
+    {
+      "id": "fawry",
+      "name": "Fawry",
+      "sector": "Fintech & Digital Payments",
+      "regions": ["MENA", "Egypt"],
+      "tags": ["startup", "operations", "engineering", "professional"],
+      "fit_segments": ["professional", "university"]
+    },
+    {
+      "id": "vodafone-egypt",
+      "name": "Vodafone Egypt",
+      "sector": "Telecommunications",
+      "regions": ["MENA", "Egypt"],
+      "tags": ["operations", "management", "professional"],
+      "fit_segments": ["professional", "university"]
+    },
+    {
+      "id": "microsoft",
+      "name": "Microsoft",
+      "sector": "Cloud & Enterprise Software",
+      "regions": ["Global", "Europe", "MENA"],
+      "tags": ["engineering", "operations", "professional"],
+      "fit_segments": ["university", "professional"]
+    },
+    {
+      "id": "google",
+      "name": "Google",
+      "sector": "Technology & Digital Products",
+      "regions": ["Global", "Europe", "MENA"],
+      "tags": ["engineering", "operations", "professional"],
+      "fit_segments": ["university", "professional"]
+    },
+    {
+      "id": "unilever",
+      "name": "Unilever",
+      "sector": "FMCG & Supply Chain",
+      "regions": ["Global", "MENA", "Europe"],
+      "tags": ["operations", "supply-chain", "management"],
+      "fit_segments": ["professional", "university"]
+    },
+    {
+      "id": "nestle",
+      "name": "Nestlé",
+      "sector": "Food & Beverage Manufacturing",
+      "regions": ["Global", "MENA", "Europe"],
+      "tags": ["operations", "manufacturing", "supply-chain"],
+      "fit_segments": ["professional", "university"]
+    },
+    {
+      "id": "loreal",
+      "name": "L'Oréal",
+      "sector": "Beauty & Consumer Products",
+      "regions": ["Global", "Europe", "MENA"],
+      "tags": ["operations", "management", "professional"],
+      "fit_segments": ["professional", "university"]
+    },
+    {
+      "id": "leonardo",
+      "name": "Leonardo",
+      "sector": "Aerospace & Defense",
+      "regions": ["Europe", "Italy", "Global"],
+      "tags": ["engineering", "manufacturing", "industrial-engineering"],
+      "fit_segments": ["university", "professional"]
+    },
+    {
+      "id": "stellantis",
+      "name": "Stellantis",
+      "sector": "Automotive & Mobility",
+      "regions": ["Europe", "Global"],
+      "tags": ["engineering", "manufacturing", "industrial-engineering"],
+      "fit_segments": ["university", "professional"]
+    },
+    {
+      "id": "maersk",
+      "name": "Maersk",
+      "sector": "Shipping & Global Logistics",
+      "regions": ["Global", "Europe", "MENA"],
+      "tags": ["supply-chain", "operations", "industrial-engineering"],
+      "fit_segments": ["professional", "university"]
+    },
+    {
+      "id": "dhl",
+      "name": "DHL",
+      "sector": "Logistics & Express Delivery",
+      "regions": ["Global", "Europe", "MENA"],
+      "tags": ["supply-chain", "operations", "logistics"],
+      "fit_segments": ["professional", "university"]
+    },
+    {
+      "id": "swisslog",
+      "name": "Swisslog",
+      "sector": "Warehouse Automation & Robotics",
+      "regions": ["Europe", "Global"],
+      "tags": ["automation", "engineering", "operations", "industrial-engineering"],
+      "fit_segments": ["university", "professional"]
+    },
+    {
+      "id": "careem",
+      "name": "Careem",
+      "sector": "Ride-Hailing & Super App",
+      "regions": ["MENA", "Egypt"],
+      "tags": ["startup", "operations", "engineering", "founder"],
+      "fit_segments": ["professional"]
+    },
+    {
+      "id": "sawiris-foundation",
+      "name": "Orascom Investment",
+      "sector": "Conglomerate & Industrial Investment",
+      "regions": ["MENA", "Egypt", "Global"],
+      "tags": ["management", "operations", "engineering"],
+      "fit_segments": ["professional"]
+    },
+    {
+      "id": "swiss-contact",
+      "name": "Swisscontact",
+      "sector": "International Development & Vocational Training",
+      "regions": ["MENA", "Global"],
+      "tags": ["professional", "management", "operations"],
+      "fit_segments": ["professional", "university"]
+    },
+    {
+      "id": "coursera",
+      "name": "Coursera",
+      "sector": "EdTech & Online Learning",
+      "regions": ["Global"],
+      "tags": ["professional", "university"],
+      "fit_segments": ["university", "professional"]
+    },
+    {
+      "id": "rockwell-automation",
+      "name": "Rockwell Automation",
+      "sector": "Industrial Control Systems",
+      "regions": ["Global", "Europe", "MENA"],
+      "tags": ["automation", "engineering", "manufacturing", "industrial-engineering"],
+      "fit_segments": ["university", "professional"]
+    },
+    {
+      "id": "honeywell",
+      "name": "Honeywell",
+      "sector": "Industrial Technology & Aerospace",
+      "regions": ["Global", "MENA", "Europe"],
+      "tags": ["engineering", "automation", "operations", "manufacturing"],
+      "fit_segments": ["professional", "university"]
+    },
+    {
+      "id": "accenture",
+      "name": "Accenture",
+      "sector": "Technology Consulting & Digital Transformation",
+      "regions": ["Global", "MENA", "Europe"],
+      "tags": ["operations", "management", "professional", "engineering"],
+      "fit_segments": ["professional", "university"]
+    }
+  ]
+}

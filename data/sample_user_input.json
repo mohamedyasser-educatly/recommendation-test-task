@@ -1,0 +1,29 @@
+{
+  "user_id": 70,
+  "user_segment": "professional",
+  "user_profile": {
+    "age": 35,
+    "country": "Egypt",
+    "highschool": {
+      "curriculum": "Egyptian National Curriculum (Thanaweya Amma)",
+      "grade": "Grade 11"
+    },
+    "university": {
+      "university_name": "Politecnico di Milano",
+      "area_of_study": ["Engineering"],
+      "major": ["Industrial Engineering"],
+      "degree_level": null
+    },
+    "professional": {
+      "university_name": "Politecnico di Milano",
+      "area_of_study": ["Engineering"],
+      "major": ["Industrial Engineering"],
+      "currently_working": true,
+      "current_company": null,
+      "current_job_title": "Founder & CEO",
+      "highest_level_of_education": "Diploma",
+      "years_of_work_experience": 0,
+      "career_intent": null
+    }
+  }
+}

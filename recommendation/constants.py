@@ -1,0 +1,12 @@
+from typing import Literal
+
+MAX_COMPANIES = 5
+MAX_DEVELOPMENT_AREAS = 3
+MAX_CAREER_POSITIONS = 4
+MAX_VALIDATION_RETRIES = 3
+
+RecoveryTarget = Literal[
+    "rank_companies",
+    "prepare_development_context",
+    "llm_career_positions",
+]

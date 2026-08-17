@@ -1,0 +1,1 @@
+from recommendation.constants import MAX_CAREER_POSITIONS
